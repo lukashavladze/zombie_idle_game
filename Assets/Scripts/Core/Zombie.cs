@@ -2,29 +2,32 @@ using UnityEngine;
 
 public class Zombie : MonoBehaviour
 {
-    public float speed = 2f;
-    private Transform target;
+    private Vector3 target;
+    public float speed = 3f;
 
-    public void Init(Transform endPoint)
+    public void Init(Vector3 targetPos)
     {
-        target = endPoint;
+        target = targetPos;
     }
+
+    Animator anim;
+
+    void Start()
+    {
+        anim = GetComponentInChildren<Animator>();
+        anim.SetBool("isWalking", true);
+    }
+
 
     void Update()
     {
-        if (target == null) return;
-
-        // Move forward
         transform.position = Vector3.MoveTowards(
             transform.position,
-            target.position,
+            target,
             speed * Time.deltaTime
         );
 
-        // Reached the end
-        if (Vector3.Distance(transform.position, target.position) < 0.1f)
-        {
-            Destroy(gameObject); // or damage player
-        }
+        if (Vector3.Distance(transform.position, target) < 0.2f)
+            Destroy(gameObject);
     }
 }
