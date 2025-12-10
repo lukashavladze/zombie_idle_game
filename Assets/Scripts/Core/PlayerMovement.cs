@@ -14,10 +14,16 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform model; // Assign your Model child in Inspector
 
+    public GameObject MP7_prefab;
+    private WeaponHolder weaponHolder;
+
+
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+        weaponHolder = GetComponent<WeaponHolder>();
+        weaponHolder.Equip(MP7_prefab);   // spawn weapon on start
     }
 
     void Update()
