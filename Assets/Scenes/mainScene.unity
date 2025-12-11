@@ -518,7 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   player: {fileID: 2883984222545112746}
   offset: {x: 0, y: 10, z: -10}
-  smoothSpeed: 100
+  smoothSpeed: 1000
   tiltAngle: 20
 --- !u!1 &410087039
 GameObject:
@@ -1255,6 +1255,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2289733139960662081, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4422484015573043487, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
+      propertyPath: modelForwardOffset
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
