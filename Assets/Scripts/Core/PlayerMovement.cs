@@ -16,15 +16,19 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Model Rotation Fix")]
     public float modelForwardOffset = 0f;
-    // Set this based on your FBX forward direction:
-    // 0 = Forward (+Z)
-    // 90 = Facing right (+X)
-    // -90 = Facing left (-X)
-    // 180 = Facing backward (-Z)
 
     [Header("Weapon")]
     public GameObject MP7_prefab;
     private WeaponHolder weaponHolder;
+
+    [Header("Animation Tuning")]
+    public float rightAnimSpeed = 1.2f;   // Right strafe animation speed
+    public float leftAnimSpeed = 0.9f;    // Left strafe animation speed
+    public float idleAnimSpeed = 1f;      // Idle animation speed
+
+
+    public float idleAimOffsetY = -10f;
+
 
     void Start()
     {
@@ -43,9 +47,8 @@ public class PlayerMovement : MonoBehaviour
         UpdateAnimation();
     }
 
-    // =============================
-    // TOUCH DRAG MOVEMENT
-    // =============================
+
+    // ---------------- TOUCH DRAG ----------------
     void HandleTouchDrag()
     {
         if (Touchscreen.current != null &&
@@ -62,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
             float deltaX = currentPos.x - previousTouchPos.x;
             previousTouchPos = currentPos;
 
-            dragSpeed = deltaX / 100f; // sensitivity
+            dragSpeed = deltaX / 100f;
         }
         else
         {
@@ -71,9 +74,8 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    // =============================
-    // KEYBOARD MOVEMENT
-    // =============================
+
+    // ---------------- KEYBOARD ----------------
     void HandleKeyboard()
     {
         if (Keyboard.current == null)
@@ -83,7 +85,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (Keyboard.current.aKey.isPressed) dir = -1f;
         else if (Keyboard.current.dKey.isPressed) dir = 1f;
-        else dir = 0f;
 
         if (dir != 0f)
             dragSpeed = dir * 0.15f;
@@ -91,56 +92,76 @@ public class PlayerMovement : MonoBehaviour
             dragSpeed = Mathf.MoveTowards(dragSpeed, 0f, Time.deltaTime * 4f);
     }
 
-    // =============================
-    // MOVE PLAYER
-    // =============================
+
+    // ---------------- MOVE PLAYER ----------------
     void MovePlayer()
     {
         Vector3 pos = transform.position;
         pos.x += dragSpeed * moveSpeed * Time.deltaTime;
         pos.x = Mathf.Clamp(pos.x, -maxX, maxX);
+        pos.z = 0f;
         transform.position = pos;
     }
 
-    // =============================
-    // ANIMATION + MODEL ROTATION
-    // =============================
+
+    // ---------------- ANIMATION ----------------
     void UpdateAnimation()
     {
         if (animator == null)
             return;
 
-        float speed = Mathf.Abs(dragSpeed * moveSpeed);
-        animator.SetFloat("Speed", speed);
+        float worldSpeed = Mathf.Abs(dragSpeed * moveSpeed);
+
+        // BlendTree Speed (0–1)
+        float animBlend = Mathf.Clamp01(worldSpeed / moveSpeed);
+        animator.SetFloat("Speed", animBlend);
+
         animator.SetBool("Grounded", true);
 
+        // STRAFE
         float strafeValue = 0f;
         if (dragSpeed > 0.01f) strafeValue = 1f;
         else if (dragSpeed < -0.01f) strafeValue = -1f;
-        else strafeValue = 0f;
 
         animator.SetFloat("Strafe", strafeValue);
 
-        // ---------- MODEL ROTATION FIX ----------
+
+        // ---------------- ANIMATION SPEED ----------------
+        if (dragSpeed > 0.01f)
+            animator.speed = rightAnimSpeed;
+        else if (dragSpeed < -0.01f)
+            animator.speed = leftAnimSpeed;
+        else
+            animator.speed = idleAnimSpeed;
+
+
+        // ---------------- MODEL ROTATION ----------------
         if (model != null)
         {
             float targetY = modelForwardOffset;
 
-            if (Mathf.Abs(dragSpeed) > 0.01f)
+            // MOVING RIGHT
+            if (dragSpeed > 0.01f)
             {
-                // modelForwardOffset = your model's natural forward direction
-                targetY = dragSpeed > 0
-                    ? modelForwardOffset + 90f   // moving right
-                    : modelForwardOffset -270f;  // moving left
+                targetY = modelForwardOffset + 90f;
             }
-
-            Quaternion targetRot = Quaternion.Euler(0, targetY, 0);
+            // MOVING LEFT
+            else if (dragSpeed < -0.01f)
+            {
+                targetY = modelForwardOffset - 270f;
+            }
+            // IDLE → apply slight aim rotation
+            else
+            {
+                targetY = modelForwardOffset + idleAimOffsetY;
+            }
 
             model.localRotation = Quaternion.Slerp(
                 model.localRotation,
-                targetRot,
-                Time.deltaTime * 10f
+                Quaternion.Euler(0f, targetY, 0f),
+                12f * Time.deltaTime
             );
         }
     }
+
 }
