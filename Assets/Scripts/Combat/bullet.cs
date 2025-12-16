@@ -1,41 +1,41 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Collider))]
 public class Bullet : MonoBehaviour
 {
-    public float speed = 20f;
+    public float speed = 25f;
     public float lifeTime = 2f;
     public int damage = 1;
 
-    private Rigidbody rb;
+    Rigidbody rb;
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
-        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
+        rb.isKinematic = false;
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     void Start()
     {
-        Debug.Log("BULLET SPAWNED: " + gameObject.name);
+        Debug.Log("BULLET SPAWNED");
 
+        // ✅ THIS IS CRITICAL
         rb.linearVelocity = transform.forward * speed;
 
         Destroy(gameObject, lifeTime);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("COLLISION WITH: " + collision.gameObject.name);
+        Debug.Log("BULLET HIT: " + collision.gameObject.name);
 
-        Zombie zombie = collision.gameObject.GetComponentInParent<Zombie>();
-        if (zombie != null)
+        if (collision.gameObject.CompareTag("Zombie"))
         {
-            Debug.Log("ZOMBIE HIT");
-            zombie.TakeDamage(damage);
+            collision.gameObject.GetComponent<Zombie>()?.TakeDamage(damage);
         }
 
         Destroy(gameObject);

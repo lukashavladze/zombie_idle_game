@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
     {
         for (int i = 0; i < burstCount; i++)
         {
-            GameObject b = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+            GameObject b = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
 
             Bullet bullet = b.GetComponent<Bullet>();
             bullet.speed = bulletSpeed;
