@@ -731,7 +731,12 @@ MonoBehaviour:
   spawnZ: 18
   targetZ: -18
   zombiePrefab: {fileID: 1873560472809109729, guid: 4ae47d494e6064d41bbdec32a7e933ec, type: 3}
-  spawnInterval: 0.1
+  spawnInterval: 0.01
+  zombieLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  zombieRadius: 0.45
+  zombieHeight: 1.8
 --- !u!1 &606196987
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,7 +1235,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2289733139960662081, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.036
+      value: 1.1
       objectReference: {fileID: 0}
     - target: {fileID: 2289733139960662081, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
       propertyPath: m_LocalPosition.z
