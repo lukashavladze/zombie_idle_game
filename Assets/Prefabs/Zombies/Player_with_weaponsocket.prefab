@@ -436,7 +436,7 @@ Transform:
   m_GameObject: {fileID: 1114756599825783987}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.67047, y: 1.007, z: -34.84}
+  m_LocalPosition: {x: 0.67047, y: 1.057, z: -34.84}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -505,10 +505,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0bdf4f9cddafdc49a09baed4d1c7c53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  moveSpeed: 100
+  moveSpeed: 70
   maxX: 18
   model: {fileID: 3633958123918633886}
-  MP7_prefab: {fileID: 5772968848325051539, guid: 0ea60a035e6c3834baa10d0d19422add, type: 3}
+  modelForwardOffset: 0
+  MP7_prefab: {fileID: 5723383182179487215, guid: a060611f81d3ab646a6ed6f9b07dc769, type: 3}
+  rightAnimSpeed: 3
+  leftAnimSpeed: 2
+  idleAnimSpeed: 1
+  idleAimOffsetY: 45
 --- !u!114 &7449780783856339106
 MonoBehaviour:
   m_ObjectHideFlags: 0

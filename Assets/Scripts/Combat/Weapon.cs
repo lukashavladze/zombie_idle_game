@@ -34,6 +34,7 @@ public class Weapon : MonoBehaviour
             Bullet bullet = b.GetComponent<Bullet>();
             bullet.speed = bulletSpeed;
             bullet.lifeTime = bulletLifetime;
+            bullet.damage = 1;
         }
     }
 }

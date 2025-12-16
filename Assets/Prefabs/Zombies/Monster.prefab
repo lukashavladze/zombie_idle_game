@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 7377694492857339963}
   m_Layer: 0
   m_Name: Monster
-  m_TagString: Untagged
+  m_TagString: Zombie
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -814,8 +814,8 @@ Transform:
   m_GameObject: {fileID: 1873560472809109729}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.2, y: 1.03, z: -36.53}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalPosition: {x: -1.1780844, y: 0.99999976, z: -32.53893}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1873560472808613053}
@@ -910,6 +910,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
   speed: 3
+  maxHP: 3
 --- !u!1 &1873560472809109731
 GameObject:
   m_ObjectHideFlags: 0
