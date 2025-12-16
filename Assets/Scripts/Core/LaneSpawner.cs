@@ -8,12 +8,10 @@ public class LaneSpawner : MonoBehaviour
     public Vector2 lane3Range = new Vector2(10f, 18f);
 
     [Header("Spawn Settings")]
-    public float spawnZ = 20f;           // Z where zombies spawn
-    public float targetZ = -20f;         // Z they walk to
+    public float spawnZ = 20f;     // Z where zombies spawn
+    public float targetZ = -20f;   // Z they walk to
     public GameObject zombiePrefab;
     public float spawnInterval = 2f;
-
-    public float spawnY = 2f; // HEIGHT ABOVE GROUND
 
     private float timer = 0f;
 
@@ -30,31 +28,44 @@ public class LaneSpawner : MonoBehaviour
 
     void SpawnZombie()
     {
-        int lane = Random.Range(1, 4);   // 1,2,3
-        float xPos = 0;
+        int lane = Random.Range(1, 4);
+        float xPos = 0f;
 
         switch (lane)
         {
             case 1:
                 xPos = Random.Range(lane1Range.x, lane1Range.y);
                 break;
-
             case 2:
                 xPos = Random.Range(lane2Range.x, lane2Range.y);
                 break;
-
             case 3:
                 xPos = Random.Range(lane3Range.x, lane3Range.y);
                 break;
         }
 
-        // 👇 Zombie spawns above ground
-        Vector3 spawnPos = new Vector3(xPos, spawnY, spawnZ);
+        // Spawn high on Y so raycast always hits ground
+        Vector3 spawnPos = new Vector3(xPos, 10f, spawnZ);
 
-        GameObject z = Instantiate(zombiePrefab, spawnPos, Quaternion.identity);
+        GameObject zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity);
 
-        // 👇 Target is also above ground
-        Vector3 targetPos = new Vector3(xPos, spawnY, targetZ);
-        z.GetComponent<Zombie>().Init(targetPos);
+        SnapZombieToGround(zombie);
+
+        // IMPORTANT: target must use the SAME grounded Y
+        Vector3 targetPos = new Vector3(xPos, zombie.transform.position.y, targetZ);
+        zombie.GetComponent<Zombie>().Init(targetPos);
+    }
+
+    void SnapZombieToGround(GameObject zombie)
+    {
+        CapsuleCollider col = zombie.GetComponent<CapsuleCollider>();
+        if (!col) return;
+
+        RaycastHit hit;
+        if (Physics.Raycast(zombie.transform.position, Vector3.down, out hit, 50f))
+        {
+            float footOffset = (col.height * 0.5f) - col.center.y;
+            zombie.transform.position = hit.point + Vector3.up * footOffset;
+        }
     }
 }

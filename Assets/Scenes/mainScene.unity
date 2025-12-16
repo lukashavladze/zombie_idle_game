@@ -732,7 +732,6 @@ MonoBehaviour:
   targetZ: -18
   zombiePrefab: {fileID: 1873560472809109729, guid: 4ae47d494e6064d41bbdec32a7e933ec, type: 3}
   spawnInterval: 0.1
-  spawnY: 2
 --- !u!1 &606196987
 GameObject:
   m_ObjectHideFlags: 0
