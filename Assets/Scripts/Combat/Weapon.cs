@@ -7,9 +7,9 @@ public class Weapon : MonoBehaviour
     public Transform firePoint;
 
     [Header("Firing Settings")]
-    public float fireRate = 5f;  // bullets per second
-    public int burstCount = 1;   // shots per tap
-    public float bulletSpeed = 25f;
+    public float fireRate = 50f;  // bullets per second
+    public int burstCount = 5;   // shots per tap
+    public float bulletSpeed = 60f;
     public float bulletLifetime = 2f;
 
     private float fireTimer;

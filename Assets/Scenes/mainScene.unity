@@ -731,7 +731,7 @@ MonoBehaviour:
   spawnZ: 18
   targetZ: -18
   zombiePrefab: {fileID: 1873560472809109729, guid: 4ae47d494e6064d41bbdec32a7e933ec, type: 3}
-  spawnInterval: 1
+  spawnInterval: 0.1
   spawnY: 2
 --- !u!1 &606196987
 GameObject:
@@ -1212,6 +1212,18 @@ PrefabInstance:
     - target: {fileID: 1114756599825783987, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
       propertyPath: m_Name
       value: Player_with_weaponsocket
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126822783061324924, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
+      propertyPath: m_Center.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126822783061324924, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
+      propertyPath: m_Center.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2126822783061324924, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
+      propertyPath: m_Center.z
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2289733139960662081, guid: 9f330bf2227373e458207c57626eb5ee, type: 3}
       propertyPath: m_LocalPosition.x

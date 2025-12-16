@@ -4,7 +4,7 @@
 [RequireComponent(typeof(Collider))]
 public class Bullet : MonoBehaviour
 {
-    public float speed = 25f;
+    public float speed = 55f;
     public float lifeTime = 2f;
     public int damage = 1;
 

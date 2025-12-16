@@ -3065,9 +3065,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
   bulletPrefab: {fileID: 1859737662677047527, guid: d8bbd6efec41dad42949aa76daf21553, type: 3}
   firePoint: {fileID: 8710362097080314935}
-  fireRate: 5
+  fireRate: 30
   burstCount: 1
-  bulletSpeed: 25
+  bulletSpeed: 50
   bulletLifetime: 2
 --- !u!1 &5934013618549724124
 GameObject:
