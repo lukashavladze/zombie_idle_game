@@ -3069,6 +3069,7 @@ MonoBehaviour:
   burstCount: 1
   bulletSpeed: 50
   bulletLifetime: 2
+  bulletdamage_fromweapon: 400
 --- !u!1 &5934013618549724124
 GameObject:
   m_ObjectHideFlags: 0

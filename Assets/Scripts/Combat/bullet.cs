@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
     public float speed = 55f;
     public float lifeTime = 2f;
-    public int damage = 1;
+    public float damage = 1f;
 
     Rigidbody rb;
 

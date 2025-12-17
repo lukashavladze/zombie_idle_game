@@ -7,24 +7,28 @@ public class Zombie : MonoBehaviour
     public float speed = 3f;
 
     [Header("Health")]
-    public int maxHP = 3;
-    private int currentHP;
+    public float maxHP = 3;
+    private float currentHP;
 
     private Animator anim;
     private bool isDead = false;
     private Rigidbody rb;
     private Collider col;
 
+
+    public GameObject damagePopupPrefab;
+    public Transform damagePoint;
+
     // Called by spawner
-    public void Init(Vector3 targetPos)
+    public void Init(Vector3 targetPos, float hp)
     {
         target = targetPos;
+        maxHP = hp;
+        currentHP = maxHP;
     }
 
     void Start()
     {
-        currentHP = maxHP;
-
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody>();
         col = GetComponent<Collider>();
@@ -53,19 +57,31 @@ public class Zombie : MonoBehaviour
     }
 
     // 🔥 DAMAGE ENTRY POINT
-    public void TakeDamage(int dmg)
+    public void TakeDamage(float dmg)
     {
         if (isDead) return;
 
         currentHP -= dmg;
 
-        // play hit animation
+        ShowDamage(dmg);
+
         anim.SetTrigger("Hit");
 
         if (currentHP <= 0)
-        {
             Die();
-        }
+    }
+
+    void ShowDamage(float dmg)
+    {
+        if (!damagePopupPrefab || !damagePoint) return;
+
+        GameObject popup = Instantiate(
+            damagePopupPrefab,
+            damagePoint.position,
+            Quaternion.identity
+        );
+
+        popup.GetComponent<DamagePopup>().SetDamage(dmg);
     }
 
     void Die()

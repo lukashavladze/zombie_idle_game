@@ -31,41 +31,37 @@ public class LaneSpawner : MonoBehaviour
         }
     }
 
+    //void SpawnZombie()
+    //{
+    //    int lane = Random.Range(1, 4);
+    //    float xPos = GetLaneX(lane);
+
+    //    Vector3 spawnPos = new Vector3(xPos, 1f, spawnZ);
+
+    //    GameObject zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity);
+
+    //    SnapZombieToGround(zombie);
+
+    //    Vector3 targetPos = new Vector3(xPos, zombie.transform.position.y, targetZ);
+    //    zombie.GetComponent<Zombie>().Init(targetPos);
+    //}
+
     void SpawnZombie()
     {
         int lane = Random.Range(1, 4);
         float xPos = GetLaneX(lane);
 
-        Vector3 spawnPos = new Vector3(xPos, 10f, spawnZ);
+        Vector3 spawnPos = new Vector3(xPos, 1f, spawnZ);
+        Vector3 targetPos = new Vector3(xPos, 1f, targetZ);
 
-        GameObject zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity);
+        Vector3 dir = (targetPos - spawnPos).normalized;
+        Quaternion rot = Quaternion.LookRotation(dir);
+
+        GameObject zombie = Instantiate(zombiePrefab, spawnPos, rot);
 
         SnapZombieToGround(zombie);
 
-        Vector3 targetPos = new Vector3(xPos, zombie.transform.position.y, targetZ);
-        zombie.GetComponent<Zombie>().Init(targetPos);
-    }
-
-
-    bool IsSpawnPointFree(GameObject zombie, Vector3 pos)
-    {
-        CapsuleCollider col = zombie.GetComponent<CapsuleCollider>();
-        if (!col) return true;
-
-        Vector3 center = pos + col.center;
-        float radius = col.radius * 0.95f;
-
-        Vector3 p1 = center + Vector3.up * (col.height / 2f - radius);
-        Vector3 p2 = center - Vector3.up * (col.height / 2f - radius);
-
-        Collider[] hits = Physics.OverlapCapsule(
-            p1,
-            p2,
-            radius,
-            zombieLayer
-        );
-
-        return hits.Length == 0;
+        zombie.GetComponent<Zombie>().Init(targetPos, 5); // need to edit
     }
 
     float GetLaneX(int lane)
@@ -86,12 +82,16 @@ public class LaneSpawner : MonoBehaviour
 
         int groundMask = LayerMask.GetMask("Ground");
 
+        // start ray well above the zombie
         Vector3 rayStart = zombie.transform.position + Vector3.up * 5f;
 
         if (Physics.Raycast(rayStart, Vector3.down, out RaycastHit hit, 20f, groundMask))
         {
-            float footOffset = (col.height * 0.5f) - col.center.y;
-            zombie.transform.position = hit.point + Vector3.up * footOffset;
+            // bottom of capsule in local space
+            float bottom = col.center.y - (col.height * 0.5f);
+
+            // move so capsule bottom touches ground
+            zombie.transform.position += Vector3.up * (hit.point.y - (zombie.transform.position.y + bottom));
         }
     }
 

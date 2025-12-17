@@ -11,6 +11,7 @@ public class Weapon : MonoBehaviour
     public int burstCount = 5;   // shots per tap
     public float bulletSpeed = 60f;
     public float bulletLifetime = 2f;
+    public float bulletdamage_fromweapon;
 
     private float fireTimer;
 
@@ -34,7 +35,7 @@ public class Weapon : MonoBehaviour
             Bullet bullet = b.GetComponent<Bullet>();
             bullet.speed = bulletSpeed;
             bullet.lifeTime = bulletLifetime;
-            bullet.damage = 1;
+            bullet.damage = bulletdamage_fromweapon;
         }
     }
 }
