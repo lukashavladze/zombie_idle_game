@@ -61,7 +61,7 @@ public class LaneSpawner : MonoBehaviour
 
         SnapZombieToGround(zombie);
 
-        zombie.GetComponent<Zombie>().Init(targetPos, 5); // need to edit
+        zombie.GetComponent<Zombie>().Init(targetPos); // need to edit
     }
 
     float GetLaneX(int lane)

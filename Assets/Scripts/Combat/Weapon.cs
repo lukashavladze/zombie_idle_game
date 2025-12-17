@@ -1,41 +1,77 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [Header("Bullet Settings")]
-    public GameObject bulletPrefab;
+    [Header("Data")]
+    public WeaponData weaponData;
+    public BulletData bulletData;
+
+    [Header("Refs")]
     public Transform firePoint;
 
-    [Header("Firing Settings")]
-    public float fireRate = 50f;  // bullets per second
-    public int burstCount = 5;   // shots per tap
-    public float bulletSpeed = 60f;
-    public float bulletLifetime = 2f;
-    public float bulletdamage_fromweapon;
-
     private float fireTimer;
+    private PlayerStats playerStats;
+
+    void Awake()
+    {
+        playerStats = GetComponentInParent<PlayerStats>();
+
+        if (!playerStats)
+            Debug.LogError("❌ PlayerStats NOT found on parent!", this);
+
+        if (!weaponData)
+            Debug.LogError("❌ WeaponData not assigned!", this);
+
+        if (!bulletData)
+            Debug.LogError("❌ BulletData not assigned!", this);
+
+        if (!firePoint)
+            Debug.LogError("❌ FirePoint not assigned!", this);
+    }
 
     void Update()
     {
+        if (!playerStats || !weaponData || !bulletData || !firePoint)
+            return; // 🚑 prevents crash
+
         fireTimer += Time.deltaTime;
 
-        if (fireTimer >= 1f / fireRate)
+        float finalFireRate = weaponData.baseFireRate * playerStats.fireRateMult;
+
+        if (fireTimer >= 1f / finalFireRate)
         {
             Fire();
             fireTimer = 0f;
         }
     }
 
-    public void Fire()
+    void Fire()
     {
-        for (int i = 0; i < burstCount; i++)
-        {
-            GameObject b = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+        int projectiles =
+            weaponData.baseProjectiles + playerStats.extraProjectiles;
 
-            Bullet bullet = b.GetComponent<Bullet>();
-            bullet.speed = bulletSpeed;
-            bullet.lifeTime = bulletLifetime;
-            bullet.damage = bulletdamage_fromweapon;
+        for (int i = 0; i < projectiles; i++)
+        {
+            float damage =
+                weaponData.baseDamage *
+                bulletData.damageMultiplier *
+                playerStats.damageMult;
+
+            // 🎯 Crit
+            if (Random.value < playerStats.critChance)
+                damage *= playerStats.critMultiplier;
+
+            GameObject bullet = Instantiate(
+                bulletData.prefab,
+                firePoint.position,
+                Quaternion.identity
+            );
+
+            bullet.GetComponent<Bullet>().Init(
+                damage,
+                weaponData.baseBulletSpeed * playerStats.bulletSpeedMult,
+                weaponData.baseBulletLifetime
+            );
         }
     }
 }

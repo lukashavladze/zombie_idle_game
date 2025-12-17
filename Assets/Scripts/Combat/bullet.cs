@@ -4,11 +4,8 @@
 [RequireComponent(typeof(Collider))]
 public class Bullet : MonoBehaviour
 {
-    public float speed = 55f;
-    public float lifeTime = 2f;
-    public float damage = 1f;
-
     Rigidbody rb;
+    float damage;
 
     void Awake()
     {
@@ -19,20 +16,16 @@ public class Bullet : MonoBehaviour
         rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
-    void Start()
+    public void Init(float damage, float speed, float lifetime)
     {
-        Debug.Log("BULLET SPAWNED");
+        this.damage = damage;
 
-        // ✅ THIS IS CRITICAL
         rb.linearVelocity = transform.forward * speed;
-
-        Destroy(gameObject, lifeTime);
+        Destroy(gameObject, lifetime);
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("BULLET HIT: " + collision.gameObject.name);
-
         if (collision.gameObject.CompareTag("Zombie"))
         {
             collision.gameObject.GetComponent<Zombie>()?.TakeDamage(damage);

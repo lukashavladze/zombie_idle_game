@@ -905,8 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2215e511ec5a8864187731dbd64207e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Zombie
-  speed: 3
-  maxHP: 1
+  data: {fileID: 11400000, guid: 37063a0e2de11684cac686142dde5290, type: 2}
   damagePopupPrefab: {fileID: 4430963744112748263, guid: e7fb4695a940d6d4ebeb34544957c904, type: 3}
   damagePoint: {fileID: 3827207697336165171}
 --- !u!1 &1873560472809109731

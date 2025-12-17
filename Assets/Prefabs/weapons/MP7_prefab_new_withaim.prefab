@@ -3063,13 +3063,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1875e435841f240a60ad4f5f62c2d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  bulletPrefab: {fileID: 1859737662677047527, guid: d8bbd6efec41dad42949aa76daf21553, type: 3}
+  weaponData: {fileID: 11400000, guid: 4354d176c1fcbdd4f81da6e9b8691fad, type: 2}
+  bulletData: {fileID: 11400000, guid: e3b531abe44bb2b4bb98762491697f90, type: 2}
   firePoint: {fileID: 8710362097080314935}
-  fireRate: 30
-  burstCount: 1
-  bulletSpeed: 50
-  bulletLifetime: 2
-  bulletdamage_fromweapon: 400
 --- !u!1 &5934013618549724124
 GameObject:
   m_ObjectHideFlags: 0

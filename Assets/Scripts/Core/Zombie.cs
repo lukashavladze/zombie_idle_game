@@ -2,29 +2,35 @@
 
 public class Zombie : MonoBehaviour
 {
+    [Header("Data")]
+    public ZombieData data;   // ASSIGN ON PREFAB
+
     [Header("Movement")]
     private Vector3 target;
-    public float speed = 3f;
+    private float speed;
 
     [Header("Health")]
-    public float maxHP = 3;
+    private float maxHP;
     private float currentHP;
 
     private Animator anim;
-    private bool isDead = false;
+    private bool isDead;
     private Rigidbody rb;
     private Collider col;
 
-
+    [Header("UI")]
     public GameObject damagePopupPrefab;
     public Transform damagePoint;
 
     // Called by spawner
-    public void Init(Vector3 targetPos, float hp)
+    public void Init(Vector3 targetPos)
     {
         target = targetPos;
-        maxHP = hp;
+
+        // ✅ stats come from ScriptableObject
+        maxHP = data.baseHP;
         currentHP = maxHP;
+        speed = data.baseSpeed;
     }
 
     void Start()
@@ -53,7 +59,7 @@ public class Zombie : MonoBehaviour
         );
 
         if (Vector3.Distance(transform.position, target) < 0.2f)
-            Destroy(gameObject);
+            ReachBase();
     }
 
     // 🔥 DAMAGE ENTRY POINT
@@ -91,18 +97,20 @@ public class Zombie : MonoBehaviour
         anim.SetBool("IsWalking", false);
         anim.SetTrigger("Die");
 
-        // stop physics
         if (rb)
-        {
-            //rb.linearVelocity = Vector3.zero;
             rb.isKinematic = true;
-        }
 
-        // disable collider so bullets pass through
         if (col)
             col.enabled = false;
 
-        // destroy after death animation
-        Destroy(gameObject, 1.0f);
+        // TODO: give coins → GameManager.AddCoins(data.rewardCoins);
+
+        Destroy(gameObject, 1f);
+    }
+
+    void ReachBase()
+    {
+        // TODO: damage base here
+        Destroy(gameObject);
     }
 }
