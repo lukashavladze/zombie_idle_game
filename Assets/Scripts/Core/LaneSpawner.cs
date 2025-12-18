@@ -5,7 +5,6 @@ public class LaneSpawner : MonoBehaviour
     [Header("Lane X Ranges")]
     public Vector2 lane1Range = new Vector2(-18f, -10f);
     public Vector2 lane2Range = new Vector2(-10f, 10f);
-    public Vector2 lane3Range = new Vector2(10f, 18f);
 
     [Header("Spawn Settings")]
     public float spawnZ = 20f;
@@ -31,24 +30,9 @@ public class LaneSpawner : MonoBehaviour
         }
     }
 
-    //void SpawnZombie()
-    //{
-    //    int lane = Random.Range(1, 4);
-    //    float xPos = GetLaneX(lane);
-
-    //    Vector3 spawnPos = new Vector3(xPos, 1f, spawnZ);
-
-    //    GameObject zombie = Instantiate(zombiePrefab, spawnPos, Quaternion.identity);
-
-    //    SnapZombieToGround(zombie);
-
-    //    Vector3 targetPos = new Vector3(xPos, zombie.transform.position.y, targetZ);
-    //    zombie.GetComponent<Zombie>().Init(targetPos);
-    //}
-
     void SpawnZombie()
     {
-        int lane = Random.Range(1, 4);
+        int lane = Random.Range(1, 3);
         float xPos = GetLaneX(lane);
 
         Vector3 spawnPos = new Vector3(xPos, 1f, spawnZ);
@@ -70,7 +54,6 @@ public class LaneSpawner : MonoBehaviour
         {
             case 1: return Random.Range(lane1Range.x, lane1Range.y);
             case 2: return Random.Range(lane2Range.x, lane2Range.y);
-            case 3: return Random.Range(lane3Range.x, lane3Range.y);
         }
         return 0f;
     }
