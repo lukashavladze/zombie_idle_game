@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -51,12 +51,19 @@ public class UpgradeManager : MonoBehaviour
 
     List<PlayerUpgrade> GetRandomUpgrades(int count)
     {
+        List<PlayerUpgrade> pool = new List<PlayerUpgrade>(allUpgrades);
         List<PlayerUpgrade> result = new List<PlayerUpgrade>();
 
         for (int i = 0; i < count; i++)
         {
-            PlayerUpgrade random = allUpgrades[Random.Range(0, allUpgrades.Count)];
-            result.Add(random);
+            if (pool.Count == 0)
+                break;
+
+            int index = Random.Range(0, pool.Count);
+            result.Add(pool[index]);
+
+            //  remove so it can't be picked again
+            pool.RemoveAt(index);
         }
 
         return result;
