@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bda3944fcbb13134c97bbe5280b64e4e, type: 3}
+  m_Name: Damage Boost
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerUpgrade
+  damageMult: 20
+  fireRateMult: 1
+  bulletSpeedMult: 1
+  extraProjectiles: 0
+  critChance: 0
+  critMultiplier: 0
+  title: Damage UP
+  description: increases damage +20%
+  icon: {fileID: 21300000, guid: 2e156fb02a502734090f756d9948c870, type: 3}
