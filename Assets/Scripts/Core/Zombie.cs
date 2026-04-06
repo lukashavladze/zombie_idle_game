@@ -17,20 +17,23 @@ public class Zombie : MonoBehaviour
     private bool isDead;
     private Rigidbody rb;
     private Collider col;
+    public HealthBar healthBar;
 
     [Header("UI")]
     public GameObject damagePopupPrefab;
     public Transform damagePoint;
+    public bool isBoss = false;
 
     // Called by spawner
     public void Init(Vector3 targetPos)
     {
         target = targetPos;
+        float diff = GameManager.Instance.difficultyMultiplier;
 
         // ✅ stats come from ScriptableObject
-        maxHP = data.baseHP;
+        maxHP = data.baseHP * diff;
         currentHP = maxHP;
-        speed = data.baseSpeed;
+        speed = data.baseSpeed * diff;
     }
 
     void Start()
@@ -40,6 +43,8 @@ public class Zombie : MonoBehaviour
         col = GetComponent<Collider>();
 
         anim.SetBool("IsWalking", true);
+        if (healthBar != null)
+            healthBar.gameObject.SetActive(isBoss);
     }
 
     void Update()
@@ -70,8 +75,9 @@ public class Zombie : MonoBehaviour
         currentHP -= dmg;
 
         ShowDamage(dmg);
-
         anim.SetTrigger("Hit");
+        if (healthBar != null && isBoss)
+            healthBar.SetHealth(currentHP, maxHP);
 
         if (currentHP <= 0)
             Die();
@@ -104,6 +110,7 @@ public class Zombie : MonoBehaviour
             col.enabled = false;
 
         // TODO: give coins → GameManager.AddCoins(data.rewardCoins);
+        XPManager.Instance.AddXP(1);
 
         Destroy(gameObject, 1f);
     }

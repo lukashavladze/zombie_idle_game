@@ -32,13 +32,13 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
-        {
-            ShowUpgrades();
-        }
-    }
+    //void Update()
+    //{
+    //    if (Keyboard.current.spaceKey.wasPressedThisFrame)
+    //    {
+    //        ShowUpgrades();
+    //    }
+    //}
 
     public void SelectUpgrade(PlayerUpgrade upgrade)
     {

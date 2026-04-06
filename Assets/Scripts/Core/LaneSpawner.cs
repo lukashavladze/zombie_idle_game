@@ -10,14 +10,23 @@ public class LaneSpawner : MonoBehaviour
     public float spawnZ = 20f;
     public float targetZ = -20f;
     public GameObject zombiePrefab;
-    public float spawnInterval = 0.1f;
+    //public GameObject bossPrefab;
+    public float spawnInterval = 3.0f;
+    
 
     [Header("Collision Check")]
     public LayerMask zombieLayer;
     public float zombieRadius = 30f;
     public float zombieHeight = 50f;
 
+    public static LaneSpawner Instance;
     private float timer;
+    public bool isBoss = false;
+
+    void Awake()
+    {
+        Instance = this;
+    }
 
     void Update()
     {
@@ -45,7 +54,32 @@ public class LaneSpawner : MonoBehaviour
 
         SnapZombieToGround(zombie);
 
-        zombie.GetComponent<Zombie>().Init(targetPos); // need to edit
+        Zombie z = zombie.GetComponent<Zombie>();
+        z.isBoss = false;          // 👈 NORMAL ZOMBIE
+        z.Init(targetPos);
+    }
+
+
+    public void SpawnBoss()
+    {
+        float xPos = GetLaneX(Random.Range(1, 3));
+
+        Vector3 spawnPos = new Vector3(xPos, 1f, spawnZ);
+        Vector3 targetPos = new Vector3(xPos, 1f, targetZ);
+
+        Vector3 dir = (targetPos - spawnPos).normalized;
+        Quaternion rot = Quaternion.LookRotation(dir);
+
+        GameObject boss = Instantiate(zombiePrefab, spawnPos, rot);
+
+        SnapZombieToGround(boss);
+
+        Zombie z = boss.GetComponent<Zombie>();
+        z.isBoss = true;           // 👈 THIS MAKES IT BOSS
+        z.Init(targetPos);
+
+        // 🔥 BOSS MODIFIERS
+        boss.transform.localScale *= 2f;
     }
 
     float GetLaneX(int lane)
